@@ -33,6 +33,14 @@ public class Calculator extends JFrame {
         displayUnit.setText("");
 
         //window setup
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException |
+                 InstantiationException |
+                 IllegalAccessException |
+                 UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         setTitle("Calculator");
         setMinimumSize(new Dimension(250, 350));
         setMaximumSize(new Dimension(400, 500));
@@ -43,22 +51,55 @@ public class Calculator extends JFrame {
         ActionListener listener = this::handleButtonPressOnDisplay;
 
         ACButton.addActionListener(listener);
+        ACButton.setFocusable(false);
+
         divBtn.addActionListener(listener);
+        divBtn.setFocusable(false);
+
         a7Button.addActionListener(listener);
+        a7Button.setFocusable(false);
+
         a4Button.addActionListener(listener);
+        a4Button.setFocusable(false);
+
         a1Button.addActionListener(listener);
+        a1Button.setFocusable(false);
+
         a0Button.addActionListener(listener);
+        a0Button.setFocusable(false);
+
         a8Button.addActionListener(listener);
+        a8Button.setFocusable(false);
+
         a5Button.addActionListener(listener);
+        a5Button.setFocusable(false);
+
         a2Button.addActionListener(listener);
+        a2Button.setFocusable(false);
+
         a9Button.addActionListener(listener);
+        a9Button.setFocusable(false);
+
         a6Button.addActionListener(listener);
+        a6Button.setFocusable(false);
+
         a3Button.addActionListener(listener);
+        a3Button.setFocusable(false);
+
         dotBtn.addActionListener(listener);
+        dotBtn.setFocusable(false);
+
         mulBtn.addActionListener(listener);
+        mulBtn.setFocusable(false);
+
         minusBtn.addActionListener(listener);
+        minusBtn.setFocusable(false);
+
         plusBtn.addActionListener(listener);
+        plusBtn.setFocusable(false);
+
         calcButton.addActionListener(listener);
+        calcButton.setFocusable(false);
     }
 
     private void handleButtonPressOnDisplay(ActionEvent e) {
@@ -118,6 +159,7 @@ public class Calculator extends JFrame {
 
     private void calculateEquation() {
         try {
+            if (showingResult) return;
             showingResult = true;
             System.out.println(displayText);
             String[] matcher = displayText.split("[+\\-*/]");
@@ -129,13 +171,15 @@ public class Calculator extends JFrame {
             switch (op) {
                 case "+" -> displayText = String.valueOf((num1 + num2));
                 case "-" -> displayText = String.valueOf((num1 - num2));
-                case "/" -> displayText = String.valueOf((num2 / num1));
+                case "/" -> displayText = String.valueOf((num1 / num2));
                 case "*" -> displayText = String.valueOf((num1 * num2));
                 default -> displayText = "Syntax Error";
             }
+
             updateDisplay();
         } catch (Exception e) {
             displayText = "Something Went Wrong!";
+            e.printStackTrace();
             showingResult = true;
             updateDisplay();
         }
@@ -143,7 +187,7 @@ public class Calculator extends JFrame {
     }
 
     private void displayAppend(char ch) {
-        if (showingResult) displayText = "";
+        if (showingResult && displayText.matches("[a-zA-Z].*")) displayText = "";
         showingResult = false;
         displayText = displayText + ch;
         updateDisplay();
