@@ -169,19 +169,20 @@ public class Calculator extends JFrame {
             String op = displayText.indexOf('+') != -1 ? "+" : displayText.indexOf('-') != -1 ? "-" : displayText.indexOf('*') != -1 ? "*" : displayText.indexOf('/') != -1 ? "/" : "";
 
             switch (op) {
-                case "+" -> displayText = String.valueOf((num1 + num2));
-                case "-" -> displayText = String.valueOf((num1 - num2));
-                case "/" -> displayText = String.valueOf((num1 / num2));
-                case "*" -> displayText = String.valueOf((num1 * num2));
+                case "+" -> displayText = String.format("%.2f", (num1 + num2));
+                case "-" -> displayText = String.format("%.2f", (num1 - num2));
+                case "/" -> displayText = String.format("%.2f", (num1 / num2));
+                case "*" -> displayText = String.format("%.2f", (num1 * num2));
                 default -> displayText = "Syntax Error";
             }
 
             updateDisplay();
         } catch (Exception e) {
-            displayText = "Something Went Wrong!";
+//            displayText = "Something Went Wrong!";
+            JOptionPane.showMessageDialog(this, "Enter a proper equation", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
-            showingResult = true;
-            updateDisplay();
+//            showingResult = true;
+//            updateDisplay();
         }
 
     }
